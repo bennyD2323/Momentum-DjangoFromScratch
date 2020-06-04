@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.conf import settings
 from django.urls import include, path
+from core import views as snippets_views
 
 urlpatterns = [
+    path('', snippets_views.homepage),
     path('admin/', admin.site.urls),
     path('accounts/', include('registration.backends.simple.urls')),
 ]
