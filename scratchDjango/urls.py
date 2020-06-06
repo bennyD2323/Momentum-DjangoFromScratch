@@ -18,8 +18,14 @@ from django.conf import settings
 from django.urls import include, path
 from core import views as snippets_views
 
+
 urlpatterns = [
-    path('', snippets_views.homepage),
+    path('', snippets_views.homepage, name="homepage"),
+    path('snippets', snippets_views.display_snippets, name="display_snippets"),
+    path('snippets/<int:snippet_pk>/edit_snippet', snippets_views.edit_snippet, name="edit_snippet"),
+    path('snippets/<int:snippet_pk>/delete_snippet', snippets_views.delete_snippet, name="delete_snippet"),
+    path('snippets/<int:snippet_pk>/display_a_snippet', snippets_views.display_a_snippet, name="display_a_snippet"),
+    path('snippets/add_snippet', snippets_views.add_snippet, name="add_snippet"),
     path('admin/', admin.site.urls),
     path('accounts/', include('registration.backends.simple.urls')),
 ]

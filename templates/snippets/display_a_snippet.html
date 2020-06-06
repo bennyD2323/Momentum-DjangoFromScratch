@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<p>Here's your snippet, you filthy animal!</p>
+<a href="{% url 'display_snippets' %}">Back to all Snippets</a>
+<div>{{ snippet.title }}</div>
+
+{% if snippet.body %}
+    <p>Code: {{ snippet.body }}</p>
+{% endif %}
+<div><a href="{% url 'edit_snippet' snippet_pk=snippet.pk %}">Edit this Snippet</a></div>
+<a href="{% url 'delete_snippet' snippet_pk=snippet.pk %}">Delete this Snippet</a>
+
+
+
+
+
+{% endblock %}}

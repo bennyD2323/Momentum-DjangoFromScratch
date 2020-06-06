@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content%}
+    <form action="{% url 'edit_snippet' snippet_pk=snippet.pk %}" method=POST>
+{% csrf_token %}
+{{ form.as_p }}
+    <button type='submit'>Edit this Snippet!</button>
+    </form>
+    <a href="{% url 'display_a_snippet' snippet_pk=snippet.pk %}">Back to this Snippet</a>
+{% endblock %}

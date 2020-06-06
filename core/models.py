@@ -14,7 +14,7 @@ class CodeSnippet(models.Model):
     body = models.TextField()
     title = models.CharField(max_length=30)
     tags = models.ManyToManyField(to=Tag, related_name='codesnippets')
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="codesnippets")
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="snippets")
     language = models.CharField(max_length=30)
     created_at = models.DateTimeField(auto_now_add=True)
     is_public = models.BooleanField(default=True)

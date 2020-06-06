@@ -5,11 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block meta %}{% endblock %}
-    <title>{% block title %}App Title{% endblock %}</title>
+    <title>{% block title %}Code Snippets{% endblock %}</title>
 </head>
 
 <body>
-    <p>Welcome to Code Snippets!</p>
+    <div>Code Snippets</div>
+    {% if user.is_authenticated %}
+    <p>Welcome to Code Snippets {{ user.username }}</p>
+    <a href="{% url 'auth_logout' %}">Logout</a>
+
+    {% endif %}
+
+
     {% block content %}
    
 
