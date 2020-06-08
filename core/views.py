@@ -8,11 +8,9 @@ from .forms import CodeSnippetForm
 
 
 def homepage(request):
-    # if request.user.is_authenticated:
-        # return redirect(to=display_snippet)
-
+    if request.user.is_authenticated:
+        return redirect(to=display_snippets)
     return render(request, 'snippets/home.html')
-
 
 @login_required
 def display_snippets(request):
@@ -34,7 +32,6 @@ def add_snippet(request):
             snippet.user = request.user
             snippet.save()
         return redirect(to='display_a_snippet', snippet_pk=snippet.pk)
-
     else:
         form = CodeSnippetForm()
     return render(request, 'snippets/add_snippet.html', {"form": form})

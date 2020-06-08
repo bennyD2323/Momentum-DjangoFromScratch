@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-<p>Heres your snippets, ya jerk!</p>
-<a href="{% url 'add_snippet' %}">Add a new Snippet</a>
-<ul>
+<div class="ml-5">
+    <p>Heres your snippets, ya jerk!</p>
+    <a class="font-weight-bolder"href="{% url 'add_snippet' %}">Add a new Snippet</a>
+    <ul>
 {% for snippet in snippets.all %}
-    <li><a href="{% url 'display_a_snippet' snippet_pk=snippet.pk %}">{{ snippet.title }}</a></li>
-    
+    <li class="pb-1 pt-1"><a href="{% url 'display_a_snippet' snippet_pk=snippet.pk %}">{{ snippet.title }}</a></li>  
 {% endfor %}
-</ul>
-
+    </ul>
+</div>
 
 {% endblock %}}

@@ -7,4 +7,6 @@ class CodeSnippetForm(forms.ModelForm):
         fields = [
             'title',
             'body',
+            'language',
+            'is_public',
         ]
