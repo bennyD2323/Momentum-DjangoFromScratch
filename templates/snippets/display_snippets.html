@@ -2,13 +2,14 @@
 
 {% block content %}
 <div class="ml-5">
-    <p>Heres your snippets, ya jerk!</p>
-    <a class="font-weight-bolder"href="{% url 'add_snippet' %}">Add a new Snippet</a>
-    <ul>
+    <h4 class="mb-4">Here is your snippet hoard: </h4>
+    
+    <ul class="">
 {% for snippet in snippets.all %}
     <li class="pb-1 pt-1"><a href="{% url 'display_a_snippet' snippet_pk=snippet.pk %}">{{ snippet.title }}</a></li>  
 {% endfor %}
     </ul>
+    <a class="font-weight-bolder ml-4"href="{% url 'add_snippet' %}">Add a new Snippet</a>
 </div>
 
 {% endblock %}}

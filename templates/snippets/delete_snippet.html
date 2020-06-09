@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block content%}
-<div class="ml-5 mb-2">
+    <div class="ml-5 mb-2">
     <form action="{% url 'delete_snippet' snippet_pk=snippet.pk %}" method=POST>
-    {% csrf_token %}
+{% csrf_token %}
     <p>Are you sure you want to delete {{ snippet.title }}?</p>
     <button type='submit'>Beware: This Snippet will be Destroyed Forever</button>
     </form>
-</div>
-<a class="ml-5"href= "{% url 'display_a_snippet' snippet_pk=snippet.pk %}">Back to this Snippet</a>
+    </div>
+    <a class="ml-5"href= "{% url 'display_a_snippet' snippet_pk=snippet.pk %}">Back to this Snippet</a>
 {% endblock %}

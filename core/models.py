@@ -20,6 +20,28 @@ class CodeSnippet(models.Model):
     is_public = models.BooleanField(default=True)
     parent = models.ForeignKey(to='self', on_delete=models.SET_NULL, related_name="children", null=True, blank=True)
 
+    def get_tag_names(self):
+        tag_names = []
+        for tag in self.tags.all():
+            tag_names.append(tag.tag)
+        return " ".join(tag_names)
+
+    def set_tag_names(self, tag_names):
+        tag_names = tag_names.split()
+        tags = []
+        for tag_name in tag_names:
+            tag = Tag.objects.filter(tag=tag_name).first()
+            if tag is None:
+                tag = Tag.objects.create(tag=tag_name)
+            tags.append(tag)
+        self.tags.set(tags)
+
+
+
+
+
+
+
     def __str__(self):
         return self.title
 

@@ -1,16 +1,14 @@
 {% extends "base.html" %}
 
 {% block content%}
-<div class="ml-5 font-weight-bold">
+    <div class="ml-5 font-weight-bold">
     <form action="{% url 'edit_snippet' snippet_pk=snippet.pk %}" method=POST>  
 {% csrf_token %}
 {{ form.as_p }}
-
-</div> 
+    </div> 
     <div class="ml-5 pb-2 ">
     <button type='submit'>Edit this Snippet!</button>
     </form>
-    </div>
     </div>
     <a class= "ml-5 pb-5 font-weight-bold" href="{% url 'display_a_snippet' snippet_pk=snippet.pk %}">Back to this Snippet</a>
 {% endblock %}

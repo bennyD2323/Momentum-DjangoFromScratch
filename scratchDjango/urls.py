@@ -25,6 +25,7 @@ urlpatterns = [
     path('snippets/<int:snippet_pk>/edit_snippet', snippets_views.edit_snippet, name="edit_snippet"),
     path('snippets/<int:snippet_pk>/delete_snippet', snippets_views.delete_snippet, name="delete_snippet"),
     path('snippets/<int:snippet_pk>/display_a_snippet', snippets_views.display_a_snippet, name="display_a_snippet"),
+    path('snippets/<str:tag_name>/', snippets_views.show_tag, name='show_tag'),
     path('snippets/add_snippet', snippets_views.add_snippet, name="add_snippet"),
     path('admin/', admin.site.urls),
     path('accounts/', include('registration.backends.simple.urls')),

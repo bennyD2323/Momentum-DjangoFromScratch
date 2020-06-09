@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import CodeSnippet
-from .models import Tag
+from .models import CodeSnippet, Tag
 from .forms import CodeSnippetForm
 
 # Create your views here.
@@ -31,7 +30,8 @@ def add_snippet(request):
             snippet = form.save(commit=False)
             snippet.user = request.user
             snippet.save()
-        return redirect(to='display_a_snippet', snippet_pk=snippet.pk)
+            snippet.set_tag_names(form.cleaned_data['tag_names'])
+            return redirect(to='display_a_snippet', snippet_pk=snippet.pk)
     else:
         form = CodeSnippetForm()
     return render(request, 'snippets/add_snippet.html', {"form": form})
@@ -44,9 +44,10 @@ def edit_snippet(request, snippet_pk):
         form = CodeSnippetForm(instance=snippet, data=request.POST)
         if form.is_valid():
             snippet=form.save()
+            snippet.set_tag_names(form.cleaned_data['tag_names'])
             return redirect(to="display_a_snippet", snippet_pk=snippet.pk)
     else:
-        form=CodeSnippetForm(instance=snippet)
+        form = CodeSnippetForm(instance=snippet, initial={"tag_names": snippet.get_tag_names()})
 
     return render(request, "snippets/edit_snippet.html", {"form":form, "snippet":snippet})
 
@@ -59,3 +60,8 @@ def delete_snippet(request, snippet_pk):
         return redirect(to='display_snippets')
     return render(request, 'snippets/delete_snippet.html', {"snippet":snippet})
         
+@login_required
+def show_tag(request, tag_name):
+    tag = get_object_or_404(Tag, tag=tag_name)
+    snippets = tag.snippets.filter(user=request.user)
+    return render(request, "snippets/show_tag.html", {"tag":tag, "snippets":snippets})
