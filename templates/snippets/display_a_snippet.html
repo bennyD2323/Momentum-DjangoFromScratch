@@ -9,12 +9,13 @@
 {% if snippet.tags.count > 0 %}
     <ul class="ml-3">
       {% for tag in snippet.tags.all %}
-        <li><a href="{% url 'show_tag' tag_name=tag.tag %}">{{ tag }}</a></li>
+        <li class="d-inline-block border rounded p-1" style="background-color: white"><a href="{% url 'show_tag' tag_name=tag.tag %}">{{ tag }}</a></li>
       {% endfor %}
     </ul>
 {% endif %}
 {% if snippet.body %}
     <p>Code: {{ snippet.body }}</p>
+    <p>Created: {{ snippet.created_at }}</p>
     <p>Language: {{ snippet.language }}</p>
 {% endif %}
   </div>

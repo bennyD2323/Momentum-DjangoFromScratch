@@ -5,13 +5,14 @@
 <div class="ml-5">
 <h1 class="mb-4"> Tag: {{ tag }}</h1>
 
-<h2> Snippets:</h2>
-
-<ul>
+<h3> Snippets with this Tag: </h3>
+<div class="card" style="width: 18rem">
+<ul class="list-group list-group-flush">
     {% for snippet in snippets.all %}
-        <li><a href="{% url 'display_a_snippet' snippet_pk=snippet.pk %}">{{ snippet.title }}</a></li>
+        <li class="list-group-item"><a href="{% url 'display_a_snippet' snippet_pk=snippet.pk %}">{{ snippet.title }}</a></li>
 
     {% endfor %}
+</div>
 </ul>
 </div>
 {% endblock %}

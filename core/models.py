@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import User
+from django.db.models import Q
 
 
 
@@ -36,14 +37,11 @@ class CodeSnippet(models.Model):
             tags.append(tag)
         self.tags.set(tags)
 
-
-
-
-
-
-
     def __str__(self):
         return self.title
 
 
-
+def search_snippets_for_user(user, query):
+    return user.snippets.filter(
+        Q(title__icontains=query))  
+        #| Q(codesnippet_id__tags__icontains=query)).distinct()

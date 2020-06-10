@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Search</h2>
+
+<form action="{% url 'search' %}" method="GET">
+    <input type="search" name="q" placeholder="Search all recipes" value="{{ query }}">
+    <p>
+        <button type="submit">Search</button>
+    </p>
+</form>
+
+{% if snippets is not None %}
+<ul>
+    {% for snippet in snippets %}
+        <li><a href="{% url 'display_a_snippet' snippet_pk=snippet.pk %}">{{ snippet.title }}</a></li>
+    {% empty %}
+        <li>There are no snippets that match</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% endblock %}
