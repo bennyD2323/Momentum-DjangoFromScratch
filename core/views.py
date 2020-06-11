@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import CodeSnippet, Tag, search_snippets_for_user
+from .models import CodeSnippet, Tag
 from .forms import CodeSnippetForm
 
+from django.db.models import Q
 # Create your views here.
 
 
@@ -66,13 +67,34 @@ def show_tag(request, tag_name):
     snippets = tag.snippets.filter(user=request.user)
     return render(request, "snippets/show_tag.html", {"tag":tag, "snippets":snippets})
 
+@login_required
+def other_snippet(request, snippet_pk):
+    snippet= get_object_or_404(CodeSnippet, pk=snippet_pk)
+    return render(request, "snippets/other_snippet.html", {"snippet": snippet})
 
 @login_required
 def search(request):
+    person_id = request.user.id
     query = request.GET.get("q")
     if query is not None:
-        snippets = search_snippets_for_user(request.user, query)
+        # snippets = search_snippets_for_user(request.user, query)
+        snippets = CodeSnippet.objects.filter(Q(title__icontains=query) | Q(tags__tag__icontains=query)).distinct()
     else:
         snippets = None
     
-    return render(request, "snippets/search.html", {"snippets":snippets, "query":query})
+    return render(request, "snippets/search.html", {"snippets":snippets, "person_id": person_id, "query":query})
+
+
+# @login_required
+# def other_user(request):
+    # users_snippets = CodeSnippet.
+#     return render(request, "snippets.other_user.html",{})
+
+
+
+# @login_required
+#     def copy_recipe(request, snippet_pk):
+#         original_snippet = get_object_or_404(Snippet, pk=recipe_pk)
+#         cloned_snippet = Snippet(
+#             title=original_recipe.title
+#         )

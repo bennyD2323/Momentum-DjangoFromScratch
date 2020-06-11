@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="ml-5 pt-2 font-weight-bold">
-    <p>Adda new freakin snippet, bro!</p>
+    <!-- <div class="ml-5 pt-2 font-weight-bold"> -->
     <form action="{% url 'add_snippet' %}" method="POST">
 {% csrf_token %}
 {{ form.as_p }}
+    <button type="submit">Add New Snippet!</button>
     </form>
-    </div>
-    <div class="ml-5 pb-2">
-        <button type="submit">Add New Snippet!</button>
-    </div>
+    <!-- </div> -->
+    <!-- <div class="ml-5 pb-2"> -->
+        
+    <!-- </div> -->
     <a class="ml-5 pb-4 font-weight-bold"href="{% url 'display_snippets' %}">Back to all Snippets</a>
 
 

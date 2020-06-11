@@ -30,7 +30,9 @@ urlpatterns = [
     path('snippets/search', snippets_views.search, name="search"),
     path('admin/', admin.site.urls),
     path('accounts/', include('registration.backends.simple.urls')),
-]
+    path('snippets/<int:snippet_pk>/display_other_user_snippet', snippets_views.other_snippet, name="other_snippet"),
+    # path('snippets/user/<str:user_name>/', snippets_views.other_user, name="other_user")
+]   
 
 if settings.DEBUG:
     import debug_toolbar

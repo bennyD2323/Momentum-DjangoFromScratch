@@ -1,21 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="ml-5">
 <h2>Search</h2>
-
 <form action="{% url 'search' %}" method="GET">
-    <input type="search" name="q" placeholder="Search all recipes" value="{{ query }}">
-    <p>
+    <input type="search" name="q" placeholder="Search all recipes" value="{{ query|default:'' }}">
+    <p class="d-inline-block">
         <button type="submit">Search</button>
     </p>
 </form>
-
+<a class="ml-2" href="{% url 'display_snippets' %}">Back to all Snippets</a>
+</div>
 {% if snippets is not None %}
+<ul class="pt-3">
+    {% for snippet in snippets %}
+        {% if person_id == snippet.user.id %}
+        <li><a href="{% url 'display_a_snippet' snippet_pk=snippet.pk %}">{{ snippet.title }}</a></li>
+        {% endif %}
+    {% empty %}
+        <li class="pt-3">There are no snippets that match</li>
+    {% endfor %}
+</ul>
+
+<h3>Other User's Snippets</h3>
 <ul>
     {% for snippet in snippets %}
-        <li><a href="{% url 'display_a_snippet' snippet_pk=snippet.pk %}">{{ snippet.title }}</a></li>
-    {% empty %}
-        <li>There are no snippets that match</li>
+        {% if person_id != snippet.user.id %}
+        <li><a href="{% url 'other_snippet' snippet_pk=snippet.pk %}">{{ snippet.title }}</a></li>
+        {% endif %}
     {% endfor %}
 </ul>
 {% endif %}

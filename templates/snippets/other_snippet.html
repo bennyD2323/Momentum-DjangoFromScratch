@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+
+{% block content%}
+<a class="ml-5" href="{% url 'display_snippets' %}">Back to all Snippets</a>
+<h3 class="ml-5 mt-3">We dug up this snippet!</h3>
+
+<div class="mb-3 ml-5">Name: {{ snippet.title }}</div>
+{% if snippet.tags.count > 0 %}
+    <ul class="ml-3">
+      {% for tag in snippet.tags.all %}
+        <li class="d-inline-block border rounded p-1" style="background-color: white"><a href="{% url 'show_tag' tag_name=tag.tag %}">{{ tag }}</a></li>
+      {% endfor %}
+    </ul>
+{% endif %}
+{% if snippet.body %}
+    <p>Code: {{ snippet.body }}</p>
+    <p>Created: {{ snippet.created_at }}</p>
+    <p>Language: {{ snippet.language }}</p>
+{% endif %}
+
+{% endblock%}
+<!-- <div><a href="{% url 'other_user' user_name=snippet.user %}"></a></div> -->
