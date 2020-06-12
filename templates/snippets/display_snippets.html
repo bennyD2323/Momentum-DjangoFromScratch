@@ -1,18 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <div class="ml-5">
+    <div class="pt-2 mb-3">
+        <a class="font-weight-bolder ml-5 pt-2"href="{% url 'add_snippet' %}"><button class="btn btn-success">Add a new Snippet <svg class="bi bi-plus-circle-fill" width="1.25em" height="1.25em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+             <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4a.5.5 0 0 0-1 0v3.5H4a.5.5 0 0 0 0 1h3.5V12a.5.5 0 0 0 1 0V8.5H12a.5.5 0 0 0 0-1H8.5V4z"/>
+           </svg></button></a>
+         </div>
     <h4 class="mb-4">Here is your snippet hoard: </h4>
     <div class="card" style="width: 18rem;">
     <ul class="list-group list-group-flush">
-{% for snippet in snippets.all %}
-    <li class="pb-1 pt-1 list-group-item"><a href="{% url 'display_a_snippet' snippet_pk=snippet.pk %}">{{ snippet.title }}</a></li>  
-{% endfor %}
+    {% for snippet in snippets.all %}
+        <li class="pb-1 pt-1 list-group-item"><a href="{% url 'display_a_snippet' snippet_pk=snippet.pk %}">{{ snippet.title }}</a></li>  
+    {% endfor %}
     </ul>
     </div>
-    <div class="pt-2">
-    <a class="font-weight-bolder ml-4 pt-2"href="{% url 'add_snippet' %}">Add a new Snippet</a>
-    </div>
+    
 </div>
 
 {% endblock %}}

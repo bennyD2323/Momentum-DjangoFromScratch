@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import CodeSnippet, Tag
+from .models import CodeSnippet, Tag, User
 from .forms import CodeSnippetForm
 
 from django.db.models import Q
@@ -20,7 +20,7 @@ def display_snippets(request):
 
 @login_required
 def display_a_snippet(request, snippet_pk):
-    snippet = get_object_or_404(request.user.snippets, pk=snippet_pk)
+    snippet = get_object_or_404(CodeSnippet, pk=snippet_pk)
     return render(request, "snippets/display_a_snippet.html", {'snippet': snippet})
     
 @login_required
@@ -64,8 +64,9 @@ def delete_snippet(request, snippet_pk):
 @login_required
 def show_tag(request, tag_name):
     tag = get_object_or_404(Tag, tag=tag_name)
-    snippets = tag.snippets.filter(user=request.user)
-    return render(request, "snippets/show_tag.html", {"tag":tag, "snippets":snippets})
+    # snippets = tag.snippets.filter(user=request.user)
+    person_id = request.user.id
+    return render(request, "snippets/show_tag.html", {"tag":tag, "person_id":person_id})
 
 @login_required
 def other_snippet(request, snippet_pk):
@@ -85,16 +86,27 @@ def search(request):
     return render(request, "snippets/search.html", {"snippets":snippets, "person_id": person_id, "query":query})
 
 
-# @login_required
-# def other_user(request):
-    # users_snippets = CodeSnippet.
-#     return render(request, "snippets.other_user.html",{})
+@login_required
+def show_other_user(request, user_name):
+    other_user = get_object_or_404(User, username=user_name)
+    
+    users_snippets = other_user.snippets.all()
+
+    return render(request, "snippets/other_user.html", {"snippets":users_snippets, })
 
 
 
-# @login_required
-#     def copy_recipe(request, snippet_pk):
-#         original_snippet = get_object_or_404(Snippet, pk=recipe_pk)
-#         cloned_snippet = Snippet(
-#             title=original_recipe.title
-#         )
+@login_required
+def copy_snippet(request, snippet_pk):
+    original_snippet = get_object_or_404(CodeSnippet, pk=snippet_pk)
+    cloned_snippet = CodeSnippet(
+        title=original_snippet.title + " (Copy)",
+        user=request.user,
+        body=original_snippet.body,
+        language=original_snippet.language,
+        is_public=original_snippet.is_public,
+        original_snippet=original_snippet
+        )
+    cloned_snippet.save()
+    cloned_snippet.tags.set(original_snippet.tags.all())
+    return redirect(to="display_a_snippet", snippet_pk=cloned_snippet.pk)

@@ -2,6 +2,13 @@ from django.db import models
 from users.models import User
 from django.db.models import Q
 
+LANGUAGE_CHOICES = (
+    ('HTML', 'HTML'),
+    ('CSS', 'CSS'),
+    ('JAVASCRIPT', 'JavaScript'),
+    ('PYTHON', 'Python'),
+)
+
 
 
 class Tag(models.Model):
@@ -16,10 +23,11 @@ class CodeSnippet(models.Model):
     title = models.CharField(max_length=30)
     tags = models.ManyToManyField(to=Tag, related_name='snippets')
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="snippets")
-    language = models.CharField(max_length=30)
+    language = models.CharField(max_length=30, choices=LANGUAGE_CHOICES, default="HTML")
     created_at = models.DateTimeField(auto_now_add=True)
     is_public = models.BooleanField(default=True)
     parent = models.ForeignKey(to='self', on_delete=models.SET_NULL, related_name="children", null=True, blank=True)
+    original_snippet= models.ForeignKey(to='self', on_delete=models.SET_NULL, null=True, blank=True)
 
     def get_tag_names(self):
         tag_names = []

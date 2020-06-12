@@ -1,5 +1,9 @@
-{% extends "base.html"%}
+{% extends "base.html" %}
 
-{% block content%}
-
+{% block content %}
+<ul>
+    {% for snippet in snippets.all %}
+    <li><a href="{% url 'other_snippet' snippet_pk=snippet.pk %}">{{ snippet.title }}</a></li>
+    {% endfor %}
+</ul>    
 {% endblock %}

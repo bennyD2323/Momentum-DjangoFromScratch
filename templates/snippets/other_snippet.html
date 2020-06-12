@@ -2,22 +2,31 @@
 
 
 {% block content%}
-<a class="ml-5" href="{% url 'display_snippets' %}">Back to all Snippets</a>
-<h3 class="ml-5 mt-3">We dug up this snippet!</h3>
 
-<div class="mb-3 ml-5">Name: {{ snippet.title }}</div>
+<a class="ml-5" href="{% url 'display_snippets' %}"><button class="btn btn-primary" type="button">Back to all Snippets 
+  <svg class="bi bi-arrow-90deg-left" width="1.25em" height="1.25em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6.104 2.396a.5.5 0 0 1 0 .708L3.457 5.75l2.647 2.646a.5.5 0 1 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M2.75 5.75a.5.5 0 0 1 .5-.5h6.5a2.5 2.5 0 0 1 2.5 2.5v5.5a.5.5 0 0 1-1 0v-5.5a1.5 1.5 0 0 0-1.5-1.5h-6.5a.5.5 0 0 1-.5-.5z"/></svg></button></a>
+<h3 class="ml-4 mt-3">We dug up this snippet!</h3>
+<div class="card ml-3 mb-3">
+  <div class="card-header">
+    <h3> "{{ snippet.title }}"</h3>
+  </div>
+  <div class="card-body bg-light">
 {% if snippet.tags.count > 0 %}
-    <ul class="ml-3">
+    <ul>
       {% for tag in snippet.tags.all %}
         <li class="d-inline-block border rounded p-1" style="background-color: white"><a href="{% url 'show_tag' tag_name=tag.tag %}">{{ tag }}</a></li>
       {% endfor %}
     </ul>
 {% endif %}
+
 {% if snippet.body %}
-    <p>Code: {{ snippet.body }}</p>
+    <p><pre><code class= "language-{{ snippet.language.lower }}">{{ snippet.body }}</code></pre></p>
     <p>Created: {{ snippet.created_at }}</p>
     <p>Language: {{ snippet.language }}</p>
+    <a href="{% url 'copy_snippet' snippet_pk=snippet.pk %}">Copy this recipe</a>
+    <div><a href="{% url 'other_user' user_name=snippet.user %}">Here are some more snippets from {{ snippet.user }}.</a></div>
 {% endif %}
-
+</div>
+</div>
 {% endblock%}
-<!-- <div><a href="{% url 'other_user' user_name=snippet.user %}"></a></div> -->
+

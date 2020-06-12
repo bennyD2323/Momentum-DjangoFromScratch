@@ -3,16 +3,30 @@
 
 {% block content %}
 <div class="ml-5">
-<h1 class="mb-4"> Tag: {{ tag }}</h1>
+<a class="pb-4 font-weight-bold"href="{% url 'display_snippets' %}"><button class="btn btn-primary" type="button">Back to all Snippets <svg class="bi bi-arrow-90deg-left" width="1.25em" height="1.25em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6.104 2.396a.5.5 0 0 1 0 .708L3.457 5.75l2.647 2.646a.5.5 0 1 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M2.75 5.75a.5.5 0 0 1 .5-.5h6.5a2.5 2.5 0 0 1 2.5 2.5v5.5a.5.5 0 0 1-1 0v-5.5a1.5 1.5 0 0 0-1.5-1.5h-6.5a.5.5 0 0 1-.5-.5z"/></svg></button></a>
+<h1 class="mb-4 mt-3"> Tag: {{ tag }}</h1>
 
 <h3> Snippets with this Tag: </h3>
 <div class="card" style="width: 18rem">
 <ul class="list-group list-group-flush">
-    {% for snippet in snippets.all %}
+    {% for snippet in tag.snippets.all %}
+        {% if person_id == snippet.user.id %}
         <li class="list-group-item"><a href="{% url 'display_a_snippet' snippet_pk=snippet.pk %}">{{ snippet.title }}</a></li>
+        {% endif %}
+    {% endfor %}
+</div>
+</ul>
 
+<h3 class="mt-3">Other User's Snippets</h3>
+<div class="card mb-5" style="width: 18rem">
+<ul class="list-group list-group-flush">
+    {% for snippet in tag.snippets.all %}
+        {% if person_id != snippet.user.id %}
+        <li class="list-group-item"><a href="{% url 'other_snippet' snippet_pk=snippet.pk %}">{{ snippet.title }}</a></li>
+        {% endif %}
     {% endfor %}
 </div>
 </ul>
 </div>
+
 {% endblock %}
